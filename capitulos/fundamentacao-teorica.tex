@@ -1,17 +1,19 @@
-\chapter{Fundamentação Teórica}
-\label{cap:fundamentacaoTeorica}
-
-Essa sessão discute brevemente a avaliação de risco de crédito no contexto de
-instituições financeiras, com foco na análise de crédito e na
-modelagem de risco.
-A avaliação de risco de crédito é um processo crítico para instituições
-financeiras, pois envolve a análise da capacidade de um tomador de empréstimo em
-honrar suas obrigações financeiras. Essa análise é fundamental para a concessão
-de crédito e a gestão do risco associado. Além disso, com os avanços recentes na
-pesquisa em ciência de dados...
+\chapter{Fundamentação Teórica}\label{cap:fundamentacaoTeorica}
 
 % \section*{Trabalhos Relacionados a Isto}
 % \label{sec:primTrab}
 % \addcontentsline{toc}{section}{Trabalhos Relacionados a Isto}
 
 % \lipsum[34-36]
+
+\textit{Machine Learning} é o processo de fazer com que computadores modifiquem, ou adaptem, as suas ações de modo que elas se tornem progressivamente mais eficazes segundo um conjunto de métricas~\cite{StephenMarsland2014}. É uma sub-área da Inteligência Artificial que foca na reprodução computacional do aprendizado, no sentido de desenvolver programas capazes de generalizar um problema: reconhecer que dentro de um determinado contexto (entrada), se uma decisão em particular (saída) foi a correta, então ela pode funcionar novamente, ou se ela foi equivocada, uma estratégia diferente deve ser elaborada.
+
+Os métodos de utilizados para atingir esse comportamento podem ser divididos em aprendizado supervisionado e não-supervisionado. No aprendizado supervisionado, um conjunto de dados de treinamento é utilizado juntamente com as respostas esperadas (rótulos) é fornecido, e com isso um algoritmo generaliza o problema, se tornando capaz de prever a resposta correta para novas entradas. Quando essa resposta é categórica, diz-se que o algoritmo é de classificação, e quando é contínua chama-se regressão~\cite{SindhuMeena2020}. O aprendizado não-supervisionado, por sua vez, opera em dados não rotulados para identificar padrões~\cite{Dike2018}.
+
+O escopo deste projeto é classificação binária em conjuntos de dados utilizados para avaliação de risco de crédito. Como desbalanceamento entre classes é um problema nessa área, é necessário levar isso em consideração na escolha do classificador utilizado para se obter bons resultados. Este capítulo, portanto, aborda os principais conceitos e práticas envolvidos no estudo e desenvolvimento de modelos de categorização em dados desbalanceados.
+
+\section{Métricas de desempenho de classificadores}
+
+A escolha das métricas de desempenho é determinante para uma avaliação precisa e confiável de um classificador~\cite{Gaudreault2021}. Os indicadores de performance utilizados hoje têm sua origem em variados domínios incluindo estatística (distância, similaridade binária etc.), processamento de sinais (\textit{area under the receiver operating characteristic curve}) AUC, recuperação de informação (\textit{precision}, \textit{recall}), medicina diagnóstica (sensibilidade, especificidade), reconhecimento estatístico de padrões (acurácia), entre outros~\cite{Canbek2023}. Quando se trata da avaliação de classificadores binários, as métricas utilizadas na literatura podem ser agrupadas segundo a sua interpretação do erro~\cite{Ferri2009}:  acurácia e \textit(F-score), por exemplo, representam o erro de forma qualitativa, com proporções entre a contagem de erros e acertos, enquanto que média do erro absoluto e \textit{Brier Score} dão uma visão probabilística do erro, isto é, medem o desvio das previsões da sua probabilidade real.
+
+Para o uso das métricas qualitativas, a contagem dos erros e acertos é representada com uma matriz \(M\), chamada de Matriz de confusão. Nesta matriz, cada elemento \(M_{ij}\) corresponde ao número de vezes com que uma instância da classe \(i\) foram identificados como pertencentes à classe \(j\).
