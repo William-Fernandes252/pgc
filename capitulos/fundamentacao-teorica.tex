@@ -10,10 +10,37 @@
 
 Os métodos de utilizados para atingir esse comportamento podem ser divididos em aprendizado supervisionado e não-supervisionado. No aprendizado supervisionado, um conjunto de dados de treinamento é utilizado juntamente com as respostas esperadas (rótulos) é fornecido, e com isso um algoritmo generaliza o problema, se tornando capaz de prever a resposta correta para novas entradas. Quando essa resposta é categórica, diz-se que o algoritmo é de classificação, e quando é contínua chama-se regressão~\cite{SindhuMeena2020}. O aprendizado não-supervisionado, por sua vez, opera em dados não rotulados para identificar padrões~\cite{Dike2018}.
 
-O escopo deste projeto é classificação binária em conjuntos de dados utilizados para avaliação de risco de crédito. Como desbalanceamento entre classes é um problema nessa área, é necessário levar isso em consideração na escolha do classificador utilizado para se obter bons resultados. Este capítulo, portanto, aborda os principais conceitos e práticas envolvidos no estudo e desenvolvimento de modelos de categorização em dados desbalanceados.
+O escopo deste projeto concentra-se na tarefa de classificação binária aplicada a conjuntos de dados utilizados na avaliação de risco de crédito. Nesse contexto, é comum a ocorrência de desbalanceamento entre as classes, o que pode impactar negativamente o desempenho dos modelos preditivos~\cite{Namvar2018}. Assim, estratégias que considerem esse desbalanceamento tendem a produzir resultados mais robustos. Este capítulo, portanto, explora os principais conceitos e técnicas relacionados ao desenvolvimento de modelos de classificação em cenários com dados desbalanceados.
 
 \section{Métricas de desempenho de classificadores}
 
 A escolha das métricas de desempenho é determinante para uma avaliação precisa e confiável de um classificador~\cite{Gaudreault2021}. Os indicadores de performance utilizados hoje têm sua origem em variados domínios incluindo estatística (distância, similaridade binária etc.), processamento de sinais (\textit{area under the receiver operating characteristic curve}) AUC, recuperação de informação (\textit{precision}, \textit{recall}), medicina diagnóstica (sensibilidade, especificidade), reconhecimento estatístico de padrões (acurácia), entre outros~\cite{Canbek2023}. Quando se trata da avaliação de classificadores binários, as métricas utilizadas na literatura podem ser agrupadas segundo a sua interpretação do erro~\cite{Ferri2009}:  acurácia e \textit(F-score), por exemplo, representam o erro de forma qualitativa, com proporções entre a contagem de erros e acertos, enquanto que média do erro absoluto e \textit{Brier Score} dão uma visão probabilística do erro, isto é, medem o desvio das previsões da sua probabilidade real.
 
 Para o uso das métricas qualitativas, a contagem dos erros e acertos é representada com uma matriz \(M\), chamada de Matriz de confusão. Nesta matriz, cada elemento \(M_{ij}\) corresponde ao número de vezes com que uma instância da classe \(i\) foram identificados como pertencentes à classe \(j\).
+
+Em problemas de classificação binária desbalanceada, a classe mais frequente é chamada de majoritária ou negativa, e a classe menos frequente é chamada de minoritária ou positiva~\cite{Seiffert2008,Batuwita2010}. Com base nisso, a matriz de confusão para esses casos pode ser vista na Tabela~\ref{tab:matriz-confusao}.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{cc|cc|}
+    \cline{3-4}
+    \multicolumn{2}{c|}{\multirow{2}{*}{}}                                       & \multicolumn{2}{c|}{\textbf{Real}}                                       \\ \cline{3-4}
+    \multicolumn{2}{c|}{}                                                        & \multicolumn{1}{c|}{\textbf{Negativa}}        & \textbf{Positiva}        \\ \hline
+    \multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{Predição}}} & \textbf{Negativa} & \multicolumn{1}{c|}{TN (verdadeiro negativo)} & FN (falso negativo)      \\ \cline{2-4}
+    \multicolumn{1}{|c|}{}                                   & \textbf{Positiva} & \multicolumn{1}{c|}{FP (falso positivo)}      & TP (verdadeiro positivo) \\ \hline
+  \end{tabular}
+  \caption{Matriz de confusão binária.}
+  \label{tab:matriz-confusao}
+\end{table}
+
+\section{Técnicas de re-amostragem}
+
+Considerando a perda de desempenho que muitos algoritmos apresentam diante de dados desbalanceados, alguns métodos foram desenvolvidos para mitigar a discrepância entre as classes e evitar o surgimento de viés a favor da classe majoritária. Esse processo, conhecido de re-amostragem, altera o conjunto de dados adicionando ou removendo instâncias seguindo algum critério~\cite{Chakravarthy2019}. Essas abordagens são amplamente aplicadas devido a sua versatilidade: como envolvem apenas os dados, o seu uso independe de qualquer modelo específico ou contexto de classificação~\cite{Carvalho2025}. As técnicas de re-amostragem podem ser divididas em três tipos~\cite{Haixiang2017}:
+
+\begin{itemize}
+  \item sobre-amostragem, (ou \textit{oversampling}) consiste em criar novas instâncias da classe minoritária, reduzindo o grau de desbalanceamento do conjunto de dados;
+  \item sub-amostragem (ou \textit{undersampling}), que cria novas amostras da classe minoritária~\cite{Mohammed2020};
+  \item abordagem híbrida, que combina os dois tipos anteriores.
+\end{itemize}
+
+Dentre as técnicas mais simples, e ainda amplamente utilizadas estão as não-heurísticas, como \textit{Random oversampling} (ROC), que gera amostras sintéticas, e \textit{Random undersampling}, que seleciona aleatoriamente instâncias para serem removidas durante o processo de treinamento. Contudo, esses métodos não garantem um melhor desempenho em aplicações~\cite{Yang2024} e
