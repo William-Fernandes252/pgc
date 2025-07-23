@@ -676,3 +676,82 @@
   url       = {https://link-springer-com.ez42.periodicos.capes.gov.br/chapter/10.1007/978-3-319-98074-4_4},
   year      = {2018}
 }
+
+@article{Zhou2016,
+  abstract  = {Feature selection aims to select a small subset of informative features that contain most of the information related to a given task. Existing feature selection methods often assume that all the features have the same cost. However, in many real world applications, different features may have different costs (e.g., different tests a patient might take in medical diagnosis). Ignoring the feature cost may produce good feature subsets in theory but they can not be used in practice. In this paper, we propose a random forest-based feature selection algorithm that incorporates the feature cost into the base decision tree construction process to produce low-cost feature subsets. In particular, when constructing a base tree, a feature is randomly selected with a probability inversely proportional to its associated cost. We evaluate the proposed method on a number of UCI datasets and apply it to a medical diagnosis problem where the real feature costs are estimated by experts. The experimental results demonstrate that our feature-cost-sensitive random forest (FCS-RF) is able to select a low-cost subset of informative features and achieves better performance than other state-of-art feature selection methods in real-world problems.},
+  author    = {Qifeng Zhou and Hao Zhou and Tao Li},
+  doi       = {10.1016/J.KNOSYS.2015.11.010},
+  issn      = {0950-7051},
+  journal   = {Knowledge-Based Systems},
+  keywords  = {Cost sensitive,Feature selection,Random forest},
+  month     = {3},
+  pages     = {1-11},
+  publisher = {Elsevier},
+  title     = {Cost-sensitive feature selection using random forest: Selecting low-cost subsets of informative features},
+  volume    = {95},
+  url       = {https://www-sciencedirect-com.ez42.periodicos.capes.gov.br/science/article/pii/S0950705115004372},
+  year      = {2016}
+}
+@article{Krawczyk2016,
+  abstract  = {Despite more than two decades of continuous development learning from imbalanced data is still a focus of intense research. Starting as a problem of skewed distributions of binary tasks, this topic evolved way beyond this conception. With the expansion of machine learning and data mining, combined with the arrival of big data era, we have gained a deeper insight into the nature of imbalanced learning, while at the same time facing new emerging challenges. Data-level and algorithm-level methods are constantly being improved and hybrid approaches gain increasing popularity. Recent trends focus on analyzing not only the disproportion between classes, but also other difficulties embedded in the nature of data. New real-life problems motivate researchers to focus on computationally efficient, adaptive and real-time methods. This paper aims at discussing open issues and challenges that need to be addressed to further develop the field of imbalanced learning. Seven vital areas of research in this topic are identified, covering the full spectrum of learning from imbalanced data: classification, regression, clustering, data streams, big data analytics and applications, e.g., in social media and computer vision. This paper provides a discussion and suggestions concerning lines of future research for each of them.},
+  author    = {Bartosz Krawczyk},
+  doi       = {10.1007/S13748-016-0094-0/TABLES/1},
+  issn      = {21926360},
+  issue     = {4},
+  journal   = {Progress in Artificial Intelligence},
+  keywords  = {Big data,Data streams,Imbalanced clustering,Imbalanced data,Imbalanced regression,Machine learning,Multi-class imbalance},
+  month     = {11},
+  pages     = {221-232},
+  publisher = {Springer Verlag},
+  title     = {Learning from imbalanced data: open challenges and future directions},
+  volume    = {5},
+  url       = {https://link-springer-com.ez42.periodicos.capes.gov.br/article/10.1007/s13748-016-0094-0},
+  year      = {2016}
+}
+
+@article{Landgrebe2004,
+  abstract  = {A common assumption made in the field of Pattern Recognition is that the priors inherent to the class distributions in the training set are representative of the true class distributions. However this assumption does not always hold, since the true...},
+  author    = {Thomas Landgrebe and Pavel Paclík and David M.J. Tax and Serguei Verzakov and Robert P.W. Duin},
+  doi       = {10.1007/978-3-540-27868-9_83},
+  isbn      = {978-3-540-27868-9},
+  issn      = {1611-3349},
+  journal   = {Lecture Notes in Computer Science (including subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics)},
+  pages     = {762-770},
+  publisher = {Springer, Berlin, Heidelberg},
+  title     = {Cost-Based Classifier Evaluation for Imbalanced Problems},
+  volume    = {3138},
+  url       = {https://link-springer-com.ez42.periodicos.capes.gov.br/chapter/10.1007/978-3-540-27868-9_83},
+  year      = {2004}
+}
+
+@article{Ling2006,
+  abstract = {In medical diagnosis, doctors must often determine what medical tests (e.g., X-ray and blood tests) should be ordered for a patient to minimize the total cost of medical tests and misdiagnosis. In this paper, we design cost-sensitive machine learning algorithms to model this learning and diagnosis process. Medical tests are like attributes in machine learning whose values may be obtained at a cost (attribute cost), and misdiagnoses are like misclassifications which may also incur a cost (misclassification cost). We first propose a lazy decision tree learning algorithm that minimizes the sum of attribute costs and misclassification costs. Then, we design several novel "test strategies" that can request to obtain values of unknown attributes at a cost (similar to doctors' ordering of medical tests at a cost) in order to minimize the total cost for test examples (new patients). These test strategies correspond to different situations in real-world diagnoses. We empirically evaluate these test strategies, and show that they are effective and outperform previous methods. Our results can be readily applied to real-world diagnosis tasks. A case study on heart disease is given throughout the paper. © 2006 IEEE.},
+  author   = {Charles X. Ling and Victor S. Sheng and Qiang Yang},
+  doi      = {10.1109/TKDE.2006.131},
+  issn     = {10414347},
+  issue    = {8},
+  journal  = {IEEE Transactions on Knowledge and Data Engineering},
+  keywords = {Classification,Concept learning,Induction,Mining methods and algorithms},
+  month    = {8},
+  pages    = {1055-1067},
+  title    = {Test strategies for cost-sensitive decision trees},
+  volume   = {18},
+  year     = {2006}
+}
+
+@article{Sahin2013,
+  abstract  = {With the developments in the information technology, fraud is spreading all over the world, resulting in huge financial losses. Though fraud prevention mechanisms such as CHIP&PIN are developed for credit card systems, these mechanisms do not prevent the most common fraud types such as fraudulent credit card usages over virtual POS (Point Of Sale) terminals or mail orders so called online credit card fraud. As a result, fraud detection becomes the essential tool and probably the best way to stop such fraud types. In this study, a new cost-sensitive decision tree approach which minimizes the sum of misclassification costs while selecting the splitting attribute at each non-terminal node is developed and the performance of this approach is compared with the well-known traditional classification models on a real world credit card data set. In this approach, misclassification costs are taken as varying. The results show that this cost-sensitive decision tree algorithm outperforms the existing well-known methods on the given problem set with respect to the well-known performance metrics such as accuracy and true positive rate, but also a newly defined cost-sensitive metric specific to credit card fraud detection domain. Accordingly, financial losses due to fraudulent transactions can be decreased more by the implementation of this approach in fraud detection systems. © 2013 Elsevier Ltd. All rights reserved.},
+  author    = {Yusuf Sahin and Serol Bulkan and Ekrem Duman},
+  doi       = {10.1016/J.ESWA.2013.05.021},
+  issn      = {0957-4174},
+  issue     = {15},
+  journal   = {Expert Systems with Applications},
+  keywords  = {Classification,Cost-sensitive modeling,Credit card fraud detection,Decision tree induction,Variable misclassification cost},
+  month     = {11},
+  pages     = {5916-5923},
+  publisher = {Pergamon},
+  title     = {A cost-sensitive decision tree approach for fraud detection},
+  volume    = {40},
+  url       = {https://www-sciencedirect-com.ez42.periodicos.capes.gov.br/science/article/pii/S0957417413003072},
+  year      = {2013}
+}
