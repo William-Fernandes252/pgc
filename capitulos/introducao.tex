@@ -50,20 +50,18 @@
 %    \end{tabular}
 % \end{table}
 
-A avaliação de risco de crédito é um processo crítico para instituições
-financeiras, pois envolve a análise da capacidade de um tomador de empréstimo em
-honrar suas obrigações financeiras. Essa análise é fundamental para a concessão
-de crédito e a gestão do risco associado. Além disso, com os avanços recentes na
-pesquisa em ciência de dados, técnicas de aprendizado de máquina têm
-sido cada vez mais empregadas na análise de dados financeiros para
-auxiliar no processo de tomada de decisão.
+A avaliação de risco de crédito é um componente essencial para a estabilidade do mercado financeiro, pois permite que instituições avaliem com precisão a probabilidade de inadimplência de clientes. Erros nessa avaliação podem resultar não apenas em prejuízos financeiros individuais, mas também em crises sistêmicas, como evidenciado na crise do subprime de 2008.
+
+Nos últimos anos, o uso de algoritmos de aprendizado de máquina tem se consolidado como uma alternativa promissora aos modelos estatísticos tradicionais, como a análise discriminante linear e a regressão logística. Tais algoritmos oferecem maior flexibilidade na modelagem de dados complexos e têm apresentado desempenho superior em diversos cenários de previsão de crédito~\cite{Shi2022}.
+
+No entanto, um desafio persistente nesse domínio é o desbalanceamento das classes: casos de inadimplência são, geralmente, muito menos frequentes do que pagamentos em dia. Esse desequilíbrio tende a enviesar os modelos preditivos, reduzindo sua capacidade de identificar tomadores de alto risco, justamente os casos mais relevantes na prática~\cite{Namvar2018}.
+
+Para lidar com esse problema, diversas estratégias têm sido propostas. Dentre elas, destacam-se as técnicas de re-amostragem, como o SMOTE e o \textit{under-sampling}, que tentam ajustar a distribuição das classes no conjunto de dados; e abordagens de aprendizado sensível ao custo, como o \textit{MetaCost}, que buscam incorporar os impactos assimétricos dos erros de classificação ao próprio processo de aprendizagem~\cite{FernndezCs2018,Wei2025}.
+
+Este trabalho tem como objetivo realizar um estudo comparativo entre diferentes estratégias para lidar com o desbalanceamento de dados na avaliação de risco de crédito. Serão considerados cenários variados, incluindo crédito pessoal, financiamento imobiliário e crédito corporativo, a fim de avaliar a robustez das abordagens analisadas em contextos distintos. Ao final, espera-se oferecer subsídios para a escolha de técnicas mais adequadas à construção de modelos preditivos eficazes em situações de classes desbalanceadas.
 
 \section{Justificativa}\label{sec:motivacao}
 \addcontentsline{toc}{section}{Motivação}
 
-% \lipsum[35]
-
 \section{Objetivos}\label{sec:objetivos}
 \addcontentsline{toc}{section}{Objetivos}
-
-% \lipsum[36]
