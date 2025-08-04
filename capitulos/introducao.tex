@@ -50,18 +50,38 @@
 %    \end{tabular}
 % \end{table}
 
-A avaliação de risco de crédito é um componente essencial para a estabilidade do mercado financeiro, pois permite que instituições avaliem com precisão a probabilidade de inadimplência de clientes. Erros nessa avaliação podem resultar não apenas em prejuízos financeiros individuais, mas também em crises sistêmicas, como evidenciado na crise do subprime de 2008.
+O risco de crédito representa a possibilidade de que uma contraparte não cumpra suas obrigações financeiras conforme acordado, resultando em perdas para a instituição credora. Trata-se de uma das principais ameaças aos bancos, cooperativas, plataformas de empréstimo entre pares (P2P lending) e outras instituições financeiras. A gestão inadequada desse risco pode comprometer a saúde financeira de uma organização e, em larga escala, desencadear instabilidades em todo o sistema econômico — como ocorreu na crise financeira global de 2008~\cite{Christiano2008}.
 
-Nos últimos anos, o uso de algoritmos de aprendizado de máquina tem se consolidado como uma alternativa promissora aos modelos estatísticos tradicionais, como a análise discriminante linear e a regressão logística. Tais algoritmos oferecem maior flexibilidade na modelagem de dados complexos e têm apresentado desempenho superior em diversos cenários de previsão de crédito~\cite{Shi2022}.
+Tradicionalmente, a avaliação de risco de crédito baseava-se em modelos estatísticos, como \textit{Logistic Regression} e análise discriminante. No entanto, com o aumento da disponibilidade de dados e o avanço das técnicas de ciência de dados, algoritmos de aprendizado de máquina têm se destacado por oferecer maior acurácia na previsão da inadimplência. Esses modelos permitem generalizar padrões complexos no comportamento de tomadores de crédito, contribuindo para decisões mais precisas e ágeis~\cite{Shi2022}.
 
-No entanto, um desafio persistente nesse domínio é o desbalanceamento das classes: casos de inadimplência são, geralmente, muito menos frequentes do que pagamentos em dia. Esse desequilíbrio tende a enviesar os modelos preditivos, reduzindo sua capacidade de identificar tomadores de alto risco, justamente os casos mais relevantes na prática~\cite{Namvar2018}.
+Apesar dos avanços, a previsão de inadimplência enfrenta um obstáculo recorrente: o desbalanceamento das classes nos conjuntos de dados. Como casos de inadimplência são, por natureza, mais raros do que os de pagamento regular, os modelos tendem a apresentar alto desempenho em métricas globais (como acurácia), mas baixo desempenho na identificação dos casos de maior interesse na prática, que são os inadimplentes~\cite{Namvar2018}. Esse viés pode levar instituições a subestimarem riscos e tomarem decisões equivocadas.
 
-Para lidar com esse problema, diversas estratégias têm sido propostas. Dentre elas, destacam-se as técnicas de re-amostragem, como o SMOTE e o \textit{under-sampling}, que tentam ajustar a distribuição das classes no conjunto de dados; e abordagens de aprendizado sensível ao custo, como o \textit{MetaCost}, que buscam incorporar os impactos assimétricos dos erros de classificação ao próprio processo de aprendizagem~\cite{FernndezCs2018,Wei2025}.
+Para lidar com esse problema, diversas estratégias têm sido propostas. Dentre elas, destacam-se as técnicas de re-amostragem, como a \textit{Synthetic Minority Over-sampling Technique} (SMOTE) e o \textit{under-sampling}, que tentam ajustar a distribuição das classes no conjunto de dados; e abordagens de aprendizado sensível ao custo, como o \textit{MetaCost}, que buscam incorporar os impactos assimétricos dos erros de classificação ao próprio processo de aprendizagem~\cite{FernndezCs2018,Wei2025}.
 
 Este trabalho tem como objetivo realizar um estudo comparativo entre diferentes estratégias para lidar com o desbalanceamento de dados na avaliação de risco de crédito. Serão considerados cenários variados, incluindo crédito pessoal, financiamento imobiliário e crédito corporativo, a fim de avaliar a robustez das abordagens analisadas em contextos distintos. Ao final, espera-se oferecer subsídios para a escolha de técnicas mais adequadas à construção de modelos preditivos eficazes em situações de classes desbalanceadas.
 
-\section{Justificativa}\label{sec:motivacao}
-\addcontentsline{toc}{section}{Motivação}
+\section{Justificativa}\label{sec:justificativa}
+\addcontentsline{toc}{section}{Justificativa}
 
-\section{Objetivos}\label{sec:objetivos}
-\addcontentsline{toc}{section}{Objetivos}
+A avaliação de risco de crédito é um pilar para a sustentabilidade do sistema financeiro, permitindo decisões de concessão de crédito mais seguras e mitigando perdas decorrentes de inadimplência~\cite{Shi2022}. Entretanto, conjuntos de dados reais utilizados para essa finalidade apresentam, com frequência, forte desbalanceamento — ou seja, a proporção de clientes inadimplentes é significativamente menor do que a de clientes adimplentes~\cite{Namvar2018}. Esse cenário prejudica o desempenho de modelos preditivos, pois tende a favorecer a classe majoritária, reduzindo a capacidade do sistema de identificar corretamente tomadores de alto risco.
+
+Diversos estudos mostram que o problema de desbalanceamento pode ser mitigado por meio de técnicas de re-amostragem (como o SMOTE e suas variações) e por aprendizado sensível a custo, que incorpora a assimetria entre os impactos dos erros de classificação. Apesar de existirem trabalhos relevantes, não há consenso sobre qual abordagem apresenta melhor desempenho no contexto de risco de crédito de maneira mais ampla, quando se comparam cenários e bases de dados distintas, e principalmente quando o número de variáveis com relações não-lineares entre si a serem consideradas é elevado~\cite{Wei2025}.
+
+Assim, um estudo comparativo sistemático entre diferentes estratégias de tratamento de desbalanceamento, considerando métricas adequadas ao problema, é essencial para orientar pesquisadores e profissionais na escolha das técnicas mais eficazes para a previsão de inadimplência.
+
+\section{Objetivo geral}\label{sec:objetivo-geral}
+\addcontentsline{toc}{section}{Objetivo geral}
+
+Realizar um estudo comparativo entre diferentes estratégias para lidar com o desbalanceamento de dados na avaliação de risco de crédito, analisando seu impacto no desempenho de modelos de aprendizado de máquina.
+
+\section{Objetivos Específicos}\label{sec:objetivos-especificos}
+\addcontentsline{toc}{section}{Objetivos específicos}
+
+\begin{enumerate}
+  \item Revisar a literatura sobre avaliação de risco de crédito com foco em problemas de classes desbalanceadas, técnicas de re-amostragem e aprendizado sensível ao custo.
+  \item Selecionar e implementar diferentes métodos de tratamento de desbalanceamento, incluindo técnicas de sobre-amostragem, sub-amostragem, métodos híbridos e classificadores sensíveis a custo.
+  \item Definir e aplicar métricas de avaliação adequadas ao cenário de classes desbalanceadas, como \textit{F1-score}, \textit{G-mean}, \textit{AUC-ROC} e custo médio de classificação.
+  \item Realizar experimentos comparativos utilizando bases de dados reais de risco de crédito em diferentes contextos (crédito pessoal, imobiliário e corporativo).
+  \item Analisar os resultados para identificar quais estratégias apresentam melhor equilíbrio entre sensibilidade à classe minoritária e desempenho global do modelo.
+  \item Discutir as implicações práticas dos resultados, oferecendo recomendações para aplicação em ambientes reais de análise de risco de crédito.
+\end{enumerate}
