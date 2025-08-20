@@ -1,19 +1,33 @@
 \chapter{Materiais e Métodos}\label{cap:ferramentas}
 
-Para comparar as técnicas para lidar com desbalanceamento no contexto da análise de risco de crédito abordadas neste trabalho, cada uma foi aplicada com diferentes algoritmos para o treinamento de classificadores utilizando conjuntos de dados de naturezas distintas, que foram então avaliados em termos das métricas adequadas para o cenário em questão
+Este trabalho compara técnicas para o tratamento de dados desbalanceados no contexto da análise de risco de crédito. Para isso, cada técnica foi utilizada em conjunto com diferentes algoritmos de classificação, aplicados a conjuntos de dados de naturezas diversas. O desempenho dos modelos resultantes foi então avaliado por meio de métricas apropriadas para o problema em questão.
 
-Este capítulo está organizado da seguinte forma: Na Seção~\ref{sec:datasets} são apresentados os conjuntos dados utilizados. A Seção~\ref{sec:configuracao-experimentos} descreve os algoritmos e as técnicas analisadas, bem como os hiper-parâmetros aplicados nos experimentos e as metodologias utilizadas para a avaliação do desempenho preditiva dos classificadores obtidos.
+Este capítulo está estruturado da seguinte forma: a Seção~\ref{sec:datasets} apresenta os conjuntos de dados utilizados nos experimentos. A Seção~\ref{sec:configuracao-experimentos} descreve os algoritmos, as técnicas de tratamento de desbalanceamento, os hiper-parâmetros e as metodologias de avaliação de desempenho preditivo dos classificadores.
 
-\section{Conjuntos de dados}\label{sec:datasets}
+\section{Conjuntos de Dados}\label{sec:datasets}
 
-Com o objetivo de fornecer uma analise mais abrangente da utilidade das técnicas para lidar com o desbalanceamento nas bases de operações de crédito, foram utilizados conjuntos de dados de diferentes categorias.
+Com o objetivo de realizar uma análise abrangente sobre a eficácia das técnicas de tratamento de desbalanceamento, foram selecionados três conjuntos de dados de crédito com características distintas, variando o grau de desequilíbrio entre \(1:9\) e \(1:99\).
 
-O primeiro conjunto se refere aos registros dos tomadores da Lending Club, uma startup de crédito P2P estadunidense. Avanços no mercado de empréstimos entre pessoas resultaram em um volume notável de dados de transações~\cite{Namvar2018}, e a empresa, que oferece uma plataforma online para a execução dessas operações, disponibilizou parte dos seus dados para o público, para fins de estudo e pesquisa. A análise feita neste trabalho se baseia nos dados de 2016 e 2017, que contém aproximadamente \(630.000\) registros com 145 atributos. O segundo conjunto utilizado consiste em uma base de dados de inadimplências de cartão de crédito em Taiwan no ano de 2005. Contendo aproximadamente 30000 amostras com informações como características demográficas, limite e histórico de pagamentos. Devido ao grande número de usuários com poucas inadimplências, este conjunto de dados em particular se destaca pelo seu nível de desbalanceamento~\cite{Wei2025}. Por último, foi selecionado um conjunto de dados de crédito corporativo, que relacionado dados fundamentalistas, como margem líquida, \textit{return on equity} (ROE) e alavancagem, com uma classificação de risco.
+O primeiro conjunto de dados refere-se aos registros de crédito da \textit{Lending Club}, uma plataforma norte-americana de empréstimos entre pessoas (\textit{peer-to-peer lending}). A expansão desse mercado resultou em um grande volume de dados transacionais~\cite{Namvar2018}. A empresa disponibiliza publicamente parte desses dados para fins de pesquisa. A análise deste trabalho baseia-se nos registros de 2016 e 2017, que somam aproximadamente \(630.000\) observações e 145 atributos.
 
-\section{Configurações dos experimentos}\label{sec:configuracao-experimentos}
+O segundo conjunto de dados contém registros de inadimplência de cartões de crédito em Taiwan, referentes ao ano de 2005. A base é composta por aproximadamente 30.000 amostras, incluindo informações demográficas, limites de crédito e históricos de pagamento. Este conjunto de dados é notório pelo seu elevado grau de desbalanceamento~\cite{Wei2025}.
 
-A separação dos dados entre treino e teste utilizada foi de \(70\%\) e \(30\%\) respectivamente, o que condiz com a estratégia adotada nos trabalhos usados como referência. Além disso, a validação durante a etapa de treinamento é feita com o método de validação cruzada \textit{k-fold}. Os algoritmos selecionados para este trabalho foi \textit{Support Vector Machine} (SVM), \textit{Random Forest} e \textit{AdaBoost}, utilizando as suas implementações da biblioteca \textit{Scikit-learn}~\cite{Pedregosa2011scikit}.
+Por fim, o terceiro conjunto de dados é focado em crédito corporativo, relacionando indicadores fundamentalistas de empresas — como margem líquida, retorno sobre o patrimônio líquido, \textit{return on equity} (ROE), e alavancagem financeira — a uma classificação de risco de crédito.
 
-Neste projeto, cinco técnicas para lidar com desbalanceamento são comparadas em termos da acurácia balanceada, \textit{G-mean}, sensibilidade e especificidade dos modelos obtidos. As técnicas de re-amostragem escolhidas são RUS, SMOTE e SMOTE-Tomek, representando respectivamente sub-amostragem, sobre-amostragem e re-amostragem híbrida. Para aprendizagem sensível à custos empregou-se \textit{MetaCost} para representar as abordagens de meta-aprendizado, e a implementação sensível a custos do SVM, \textit{Cost-sensitive SVM} (CSSVM) de Iranmehr, Masnadi-Shirazi e Vasconcelos (\citeyear{Iranmehr2019}) para representar as abordagens algorítmicas.
+\section{Configuração dos Experimentos}\label{sec:configuracao-experimentos}
 
-Como não há uma matriz de custos disponível para cada base utilizada, os custos de classificações incorretas são tratados como hiper-parâmetros do problema, sendo otimizados utilizando busca em grade (\textit{grid-search}), assim como foi feito por Cao, Zhao e Zaiane (\citeyear{Cao2013}). Neste trabalho, adota-se a convenção de denominar a classe minoritária como 1 e a majoritária como 0.
+Os dados foram segmentados em conjuntos de treino e teste na proporção de \(70\%\) e \(30\%\), respectivamente, uma estratégia consistente com a literatura de referência. Adicionalmente, empregou-se o método de validação cruzada \textit{k-fold} durante a etapa de treinamento para a otimização de hiper-parâmetros. Os algoritmos de classificação selecionados foram \textit{Support Vector Machine} (SVM), \textit{Random Forest} e \textit{AdaBoost}, utilizando suas implementações disponíveis na biblioteca \textit{Scikit-learn}~\cite{Pedregosa2011scikit}.
+
+Neste projeto, comparam-se cinco abordagens para o tratamento de dados desbalanceados, avaliando os modelos resultantes por meio das métricas de acurácia balanceada, \textit{G-mean}, sensibilidade e especificidade. As técnicas de reamostragem escolhidas foram:
+\begin{itemize}
+  \item \textbf{RUS (Random Under-sampling):} representando as técnicas de subamostragem;
+  \item \textbf{SMOTE (Synthetic Minority Over-sampling Technique):} como representante da sobreamostragem;
+  \item \textbf{SMOTE-Tomek:} uma abordagem híbrida que combina as duas estratégias anteriores.
+\end{itemize}
+Para a aprendizagem sensível a custos, foram utilizadas duas abordagens distintas:
+\begin{itemize}
+  \item \textbf{\textit{MetaCost}:} representando as técnicas de meta-aprendizado;
+  \item \textbf{\textit{Cost-sensitive SVM} (CSSVM):} uma implementação do SVM sensível a custos proposta por Iranmehr, Masnadi-Shirazi e Vasconcelos (\citeyear{Iranmehr2019}), como exemplo de abordagem algorítmica.
+\end{itemize}
+
+Dada a ausência de uma matriz de custos predefinida para os conjuntos de dados, os custos de classificação incorreta foram tratados como hiperparâmetros. Estes foram otimizados por meio de busca em grade (\textit{grid search}), uma metodologia também adotada por Cao, Zhao e Zaiane (\citeyear{Cao2013}). Por convenção, este trabalho rotula a classe minoritária (inadimplentes) como positiva (1) e a classe majoritária (adimplentes) como negativa (0).
