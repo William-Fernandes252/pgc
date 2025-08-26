@@ -1,26 +1,26 @@
-\chapter{Metodologia experimental}\label{cap:ferramentas}
+\chapter{Metodologia Experimental}\label{cap:ferramentas}
 
-Este trabalho compara técnicas para o tratamento de dados desbalanceados no contexto da análise de risco de crédito. Para isso, cada técnica foi utilizada em diferentes algoritmos de classificação, aplicados a conjuntos de dados de naturezas diversas. O desempenho dos modelos resultantes foi então avaliado por meio de métricas apropriadas para o problema em questão.
+Este trabalho compara técnicas para o tratamento de dados desbalanceados no contexto da análise de risco de crédito. Para isso, cada técnica foi aplicada a diferentes algoritmos de classificação, que por sua vez foram treinados e avaliados em conjuntos de dados de naturezas diversas. O desempenho dos modelos resultantes foi mensurado por meio de métricas apropriadas para o problema em questão.
 
-Este capítulo está estruturado da seguinte forma: a Seção~\ref{sec:datasets} apresenta os conjuntos de dados utilizados; a Seção~\ref{sec:configuracao-experimentos} descreve o tratamento realizado nos dados e os parâmetros aplicados para a realização dos experimentos, incluindo a estratégia adotada para separação dos dados entre treino, teste e validação; a Seção~\ref{sec:tecnicas} lista as técnicas comparadas no trabalho; por fim, a Seção~\ref{sec:metricas} declara as métricas escolhidas para comparação dos classificadores resultantes dos experimentos.
+Este capítulo está estruturado da seguinte forma: a Seção~\ref{sec:datasets} apresenta os conjuntos de dados utilizados; a Seção~\ref{sec:configuracao-experimentos} descreve o pré-processamento dos dados e os parâmetros dos experimentos, incluindo a estratégia de particionamento em conjuntos de treino, teste e validação; a Seção~\ref{sec:tecnicas} detalha as técnicas de tratamento de desbalanceamento comparadas; por fim, a Seção~\ref{sec:metricas} apresenta as métricas escolhidas para a avaliação de desempenho dos classificadores.
 
-\section{Conjuntos de dados}\label{sec:datasets}
+\section{Conjuntos de Dados}\label{sec:datasets}
 
 Com o objetivo de realizar uma análise abrangente sobre a eficácia das técnicas de tratamento de desbalanceamento, foram selecionados três conjuntos de dados de crédito com características distintas.
 
-O primeiro conjunto de dados refere-se aos registros de crédito da \textit{Lending Club}, uma plataforma norte-americana de empréstimos entre pessoas (\textit{peer-to-peer lending}). A expansão desse mercado resultou em um grande volume de dados transacionais~\cite{Namvar2018}. A empresa disponibiliza publicamente parte desses dados para fins de pesquisa. A análise deste trabalho baseia-se nos registros de 2016 e 2017, que somam aproximadamente \(630.000\) observações e 145 atributos. A variável alvo \text{\(loan\_status\)}, que diz se em que estado se encontra o pagamento do empréstimo, possui três valores possíveis
+O primeiro conjunto refere-se aos registros de crédito da \textit{Lending Club}, uma plataforma norte-americana de empréstimos entre pessoas (\textit{peer-to-peer lending}). A expansão desse mercado resultou em um grande volume de dados transacionais~\cite{Namvar2018}. A empresa disponibiliza publicamente parte de seus dados para fins de pesquisa. A análise deste trabalho baseia-se nos registros de 2016 e 2017, que somam aproximadamente \(630.000\) observações e 145 atributos. A variável-alvo, \texttt{loan\_status}, indica o estado do pagamento do empréstimo e possui três valores principais:
 \begin{itemize}
-  \item \textbf{\textit{Fully Paid:}} indica que o empréstimo foi totalmente pago pelo tomador (incluindo os juros);
-  \item \textbf{\textit{Current:}} indica que as parcelas estão sendo pagas em dia;
-  \item \textbf{\textit{Charged Off:}} o tomador está a mais de quatro meses (120 dias) sem pagar uma parcela, configurando uma inadimplência.
+  \item \textbf{\textit{Fully Paid:}} O empréstimo foi integralmente quitado pelo tomador;
+  \item \textbf{\textit{Current:}} As parcelas estão sendo pagas em dia;
+  \item \textbf{\textit{Charged Off:}} O tomador está há mais de 120 dias sem efetuar o pagamento, caracterizando inadimplência.
 \end{itemize}
-A relação entre pagadores e inadimplentes considerando apenas estas classes é de 90 para 1, o que representa um grau considerável de desbalanceamento. O conjunto de dados completo pode ser acessado em~\url{https://www.kaggle.com/datasets/wordsforthewise/lending-club}
+Ao considerar apenas as classes \textit{Fully Paid/Current} (adimplentes) e \textit{Charged Off} (inadimplentes), a proporção entre elas é de aproximadamente 90 para 1, o que representa um grau severo de desbalanceamento. O conjunto de dados pode ser acessado em~\url{https://www.kaggle.com/datasets/wordsforthewise/lending-club}.
 
-O segundo conjunto de dados contém registros de inadimplência de cartões de crédito em Taiwan entre Abril e Setembro de 2005. Ele é composto por \(30.000\) amostras, incluindo informações demográficas, limites de crédito e históricos de pagamento. A variável \text{\(default.payment.next.month\)}, que pode ser \(0\) ou \(1\), indica se o cliente deixou de pagar a parcela de um dos meses, se tornando inadimplente. Esses casos representam apenas \(20\%\) do total. Esse conjunto de dados pode ser baixado em~\url{https://www.kaggle.com/datasets/uciml/default-of-credit-card-clients-dataset}
+O segundo conjunto de dados contém registros de inadimplência de cartões de crédito em Taiwan, coletados entre abril e setembro de 2005. Ele é composto por \(30.000\) amostras com informações demográficas, limites de crédito e históricos de pagamento. A variável-alvo, \texttt{default.payment.next.month}, indica se o cliente se tornou inadimplente no mês subsequente (\(1\)) ou não (\(0\)). Os casos de inadimplência representam \(22\%\) do total de registros. O conjunto de dados está disponível em~\url{https://www.kaggle.com/datasets/uciml/default-of-credit-card-clients-dataset}.
 
-Por fim, o terceiro conjunto de dados é focado em crédito corporativo, relacionando indicadores fundamentalistas de \(2.029\) empresas — como margem líquida, retorno sobre o patrimônio líquido, \textit{return on equity} (ROE), e alavancagem financeira — a uma dentre 10 classes de risco (\(Rating\)), sendo \(D\) o caso em que, com base no estado atual da companhia, ela não seria capaz de arcar com as obrigações de um empréstimo. Empresas nessa situação representam apenas \(0.005\%\) dos dados, tornando esse o conjunto de dados mais desbalanceado. Os dados podem ser acessados em~\url{https://www.kaggle.com/datasets/agewerc/corporate-credit-rating}
+Por fim, o terceiro conjunto de dados é focado em crédito corporativo, relacionando indicadores fundamentalistas de \(2.029\) empresas — como margem líquida e retorno sobre o patrimônio líquido (\textit{return on equity} - ROE) — a uma de 10 classes de risco (\texttt{Rating}). A classe de maior risco, \(D\), indica que a empresa não seria capaz de arcar com suas obrigações financeiras. Tais empresas representam apenas \(0,005\%\) dos dados, tornando este o conjunto mais desbalanceado entre os selecionados. Os dados podem ser acessados em~\url{https://www.kaggle.com/datasets/agewerc/corporate-credit-rating}.
 
-A Tabela~\ref{tab:resumo-datasets} a seguir resume as principais características dos conjuntos de dados utilizados.
+A Tabela~\ref{tab:resumo-datasets} resume as principais características dos conjuntos de dados utilizados.
 
 \begin{table}[h]
   \centering
@@ -32,10 +32,10 @@ A Tabela~\ref{tab:resumo-datasets} a seguir resume as principais característica
       \textbf{Característica} & \textbf{Lending Club} & \textbf{Inadimplência de Cartão de Crédito (Taiwan)} & \textbf{Crédito Corporativo} \\ \hline
       \textbf{Origem/Tipo} & Empréstimos \textit{peer-to-peer} (EUA) & Cartões de crédito de pessoas físicas (Taiwan) & Empresas (indicadores fundamentalistas) \\ \hline
       \textbf{Nº de Observações} & \(\sim 630.000\) & \(30.000\) & \(2.029\) \\ \hline
-      \textbf{Nº de Atributos} & 145 & 25 & 31 \\ \hline
-      \textbf{Variável Alvo} & \texttt{loan\_status} & \texttt{default.payment.next.month} & \texttt{Rating} \\ \hline
-      \textbf{Classes} & \textit{Fully Paid, Current, Charged Off} & 0 (Adimplente), 1 (Inadimplente) & 10 classes de risco (AAA, AA, A, BBB, BB, ..., D) \\ \hline
-      \textbf{Desbalanceamento} & 90:1 (Pagadores vs. Inadimplentes) & \(20\%\) de inadimplentes & \(0.005\%\) de empresas com rating `D' \\ \hline
+      \textbf{Nº de Atributos} & 145 & 24 & 31 \\ \hline
+      \textbf{Variável-Alvo} & \texttt{loan\_status} & \texttt{default.payment.next.month} & \texttt{Rating} \\ \hline
+      \textbf{Classes} & \textit{Fully Paid, Current, Charged Off} & 0 (Adimplente), 1 (Inadimplente) & 10 classes de risco (AAA, AA, ..., D) \\ \hline
+      \textbf{Proporção Minoritária} & \(\sim 1,1\%\) (Inadimplentes) & \(22\%\) (Inadimplentes) & \(0,005\%\) (Rating `D') \\ \hline
       \textbf{Fonte} & \url{https://www.kaggle.com/datasets/wordsforthewise/lending-club} & \url{https://www.kaggle.com/datasets/uciml/default-of-credit-card-clients-dataset} & \url{https://www.kaggle.com/datasets/agewerc/corporate-credit-rating} \\ \hline
     \end{tabular}%
   }
@@ -43,25 +43,26 @@ A Tabela~\ref{tab:resumo-datasets} a seguir resume as principais característica
 
 \section{Configuração dos Experimentos}\label{sec:configuracao-experimentos}
 
-Os dados são segmentados aleatoriamente, com divisão estratificada, em conjuntos de treino e teste na proporção de \(70\%\) e \(30\%\) respectivamente, e é utilizada uma média de \(30\) experimentos para mitigar a influencia da separação no efeito do tratamento do desbalanceamento, uma estratégia consistente com a literatura de referência~\cite{Namvar2018}. Adicionalmente, empregou-se o método de validação cruzada \textit{k-fold} durante a etapa de treinamento para a otimização de hiper-parâmetros. Os algoritmos de classificação selecionados foram \textit{Support Vector Machine} (SVM), \textit{Random Forest} e \textit{AdaBoost}, utilizando suas implementações disponíveis na biblioteca \textit{Scikit-learn}~\cite{Pedregosa2011scikit}.
+Para mitigar a influência da aleatoriedade na partição dos dados sobre os resultados, cada experimento foi executado \(30\) vezes com sementes distintas, e os resultados finais foram calculados como a média dessas execuções~\cite{Namvar2018}. Em cada execução, os dados foram segmentados em conjuntos de treino (\(70\%\)) e teste (\(30\%\)) por meio de amostragem estratificada. Adicionalmente, empregou-se o método de validação cruzada \textit{k-fold} no conjunto de treino para a otimização de hiper-parâmetros. Os algoritmos de classificação selecionados foram \textit{Support Vector Machine} (SVM), \textit{Random Forest} e \textit{AdaBoost}, utilizando suas implementações da biblioteca \textit{Scikit-learn}~\cite{Pedregosa2011scikit}.
 
-\section{Técnicas para lidar com desbalanceamento}\label{sec:tecnicas}
+\section{Técnicas para Tratamento de Desbalanceamento}\label{sec:tecnicas}
 
-Neste projeto, comparam-se cinco abordagens para o tratamento de dados desbalanceados:
+Neste projeto, comparam-se cinco abordagens para o tratamento de dados desbalanceados, divididas em duas categorias: re-amostragem e aprendizagem sensível a custos.
 
+As técnicas de re-amostragem utilizadas foram:
 \begin{itemize}
-  \item \textbf{RUS (Random Under-sampling):} representando as técnicas de subamostragem;
-  \item \textbf{SMOTE (Synthetic Minority Over-sampling Technique):} como representante da sobreamostragem;
-  \item \textbf{SMOTE-Tomek:} uma abordagem híbrida que combina as duas estratégias anteriores.
+  \item \textbf{RUS (Random Under-sampling):} Representando as técnicas de subamostragem;
+  \item \textbf{SMOTE (Synthetic Minority Over-sampling Technique):} Como representante da sobre-amostragem;
+  \item \textbf{SMOTE-Tomek:} Uma abordagem híbrida que combina as duas estratégias anteriores.
 \end{itemize}
-Para a aprendizagem sensível a custos, foram utilizadas duas abordagens distintas:
+Para a aprendizagem sensível a custos, foram empregadas duas abordagens distintas:
 \begin{itemize}
-  \item \textbf{\textit{MetaCost}:} representando as técnicas de meta-aprendizado;
-  \item \textbf{\textit{Cost-sensitive SVM} (CSSVM):} uma implementação do SVM sensível a custos proposta por Iranmehr, Masnadi-Shirazi e Vasconcelos (\citeyear{Iranmehr2019}), como exemplo de abordagem algorítmica.
+  \item \textbf{\textit{MetaCost}:} Representando as técnicas de meta-aprendizado;
+  \item \textbf{\textit{Cost-sensitive SVM} (CSSVM):} Uma implementação do SVM sensível a custos proposta por Iranmehr, Masnadi-Shirazi e Vasconcelos~\cite{Iranmehr2019}, como exemplo de abordagem algorítmica.
 \end{itemize}
 
-Dada a ausência de uma matriz de custos predefinida para os conjuntos de dados, os custos de classificação incorreta foram tratados como hiper-parâmetros. Estes foram otimizados por meio de busca em grade (\textit{grid search}), uma metodologia também adotada por Cao, Zhao e Zaiane (\citeyear{Cao2013}). Por convenção, este trabalho rotula a classe minoritária (inadimplentes) como positiva (1) e a classe majoritária (adimplentes) como negativa (0).
+Dada a ausência de uma matriz de custos predefinida para os conjuntos de dados, os custos de classificação incorreta foram tratados como hiper-parâmetros. Estes foram otimizados por meio de busca em grade (\textit{grid search}), uma metodologia também adotada por Cao, Zhao e Zaiane~\cite{Cao2013}. Por convenção, este trabalho rotula a classe minoritária (ex: inadimplentes) como positiva (1) e a classe majoritária (ex: adimplentes) como negativa (0).
 
-\section{Métricas para avaliação}\label{sec:metricas}
+\section{Métricas de Avaliação}\label{sec:metricas}
 
-Os modelos resultantes dos experimentos serão avaliados em termos da acurácia balanceada, \textit{G-mean}, sensibilidade, precisão e \textit{F1-score}. Essas métricas foram escolhidas por levarem em consideração o desequilíbrio na distribuição das classes~\cite{Namvar2018,Wei2025}, de modo que a capacidade dos classificadores em identificar risco será mais evidente.
+Os modelos resultantes dos experimentos foram avaliados por meio das métricas de acurácia balanceada, \textit{G-mean}, sensibilidade (revocação), precisão e \textit{F1-score}. Tais métricas foram escolhidas por serem robustas ao desbalanceamento de classes~\cite{Namvar2018,Wei2025}, permitindo uma avaliação mais fidedigna da capacidade dos classificadores em identificar corretamente a classe de interesse (minoritária).
