@@ -2,7 +2,7 @@
 
 Este trabalho compara técnicas para o tratamento de dados desbalanceados no contexto da análise de risco de crédito. Para isso, cada técnica foi aplicada a diferentes algoritmos de classificação, que por sua vez foram treinados e avaliados em conjuntos de dados de naturezas diversas. O desempenho dos modelos resultantes foi mensurado por meio de métricas apropriadas para o problema em questão.
 
-Este capítulo está estruturado da seguinte forma: a Seção~\ref{sec:datasets} apresenta os conjuntos de dados utilizados; a Seção~\ref{sec:configuracao-experimentos} descreve o pré-processamento dos dados e os parâmetros dos experimentos, incluindo a estratégia de particionamento em conjuntos de treino, teste e validação; a Seção~\ref{sec:tecnicas} detalha as técnicas de tratamento de desbalanceamento comparadas; por fim, a Seção~\ref{sec:metricas} apresenta as métricas escolhidas para a avaliação de desempenho dos classificadores.
+Este capítulo está estruturado da seguinte forma: a Seção~\ref{sec:datasets} apresenta os conjuntos de dados utilizados; a Seção~\ref{sec:configuracao-experimentos} descreve o pré-processamento dos dados e os parâmetros dos experimentos, incluindo a estratégia de particionamento em conjuntos de treino, teste e validação; a Seção~\ref{sec:tecnicas} detalha as técnicas de tratamento de desbalanceamento comparadas; a Seção~\ref{sec:metricas} apresenta as métricas escolhidas para a avaliação de desempenho dos classificadores; por fim, a Seção~\ref{sec:cronograma} estabelece um cronograma para as atividades do trabalho.
 
 \section{Conjuntos de Dados}\label{sec:datasets}
 
@@ -10,15 +10,15 @@ Com o objetivo de realizar uma análise abrangente sobre a eficácia das técnic
 
 O primeiro conjunto refere-se aos registros de crédito da \textit{Lending Club}, uma plataforma norte-americana de empréstimos entre pessoas (\textit{peer-to-peer lending}). A expansão desse mercado resultou em um grande volume de dados transacionais~\cite{Namvar2018}. A empresa disponibiliza publicamente parte de seus dados para fins de pesquisa. A análise deste trabalho baseia-se nos registros de 2016 e 2017, que somam aproximadamente \(630.000\) observações e 145 atributos. A variável-alvo, \texttt{loan\_status}, indica o estado do pagamento do empréstimo e possui três valores principais:
 \begin{itemize}
-  \item \textbf{\textit{Fully Paid:}} O empréstimo foi integralmente quitado pelo tomador;
-  \item \textbf{\textit{Current:}} As parcelas estão sendo pagas em dia;
-  \item \textbf{\textit{Charged Off:}} O tomador está há mais de 120 dias sem efetuar o pagamento, caracterizando inadimplência.
+  \item \textbf{\texttt{Fully Paid:}} O empréstimo foi integralmente quitado pelo tomador;
+  \item \textbf{\texttt{Current:}} As parcelas estão sendo pagas em dia;
+  \item \textbf{\texttt{Charged Off:}} O tomador está há mais de 120 dias sem efetuar o pagamento, caracterizando inadimplência.
 \end{itemize}
-Ao considerar apenas as classes \textit{Fully Paid/Current} (adimplentes) e \textit{Charged Off} (inadimplentes), a proporção entre elas é de aproximadamente 90 para 1, o que representa um grau severo de desbalanceamento. O conjunto de dados pode ser acessado em~\url{https://www.kaggle.com/datasets/wordsforthewise/lending-club}.
+O percentual por classe é de \(48.4\%\) para \texttt{Fully Paid}, \(39.5\%\) para \texttt{Current} e \(12.1\%\) para \texttt{Charged Off}. Ao considerar apenas as classes \texttt{Fully Paid/Current} (adimplentes) e \texttt{Charged Off} (inadimplentes), a proporção entre elas é de aproximadamente 90 para 1, o que representa um grau severo de desbalanceamento. O conjunto de dados pode ser acessado em~\url{https://www.kaggle.com/datasets/wordsforthewise/lending-club}.
 
 O segundo conjunto de dados contém registros de inadimplência de cartões de crédito em Taiwan, coletados entre abril e setembro de 2005. Ele é composto por \(30.000\) amostras com informações demográficas, limites de crédito e históricos de pagamento. A variável-alvo, \texttt{default.payment.next.month}, indica se o cliente se tornou inadimplente no mês subsequente (\(1\)) ou não (\(0\)). Os casos de inadimplência representam \(22\%\) do total de registros. O conjunto de dados está disponível em~\url{https://www.kaggle.com/datasets/uciml/default-of-credit-card-clients-dataset}.
 
-Por fim, o terceiro conjunto de dados é focado em crédito corporativo, relacionando indicadores fundamentalistas de \(2.029\) empresas — como margem líquida e retorno sobre o patrimônio líquido (\textit{return on equity} - ROE) — a uma de 10 classes de risco (\texttt{Rating}). A classe de maior risco, \(D\), indica que a empresa não seria capaz de arcar com suas obrigações financeiras. Tais empresas representam apenas \(0,005\%\) dos dados, tornando este o conjunto mais desbalanceado entre os selecionados. Os dados podem ser acessados em~\url{https://www.kaggle.com/datasets/agewerc/corporate-credit-rating}.
+Por fim, o terceiro conjunto de dados é focado em crédito corporativo, relacionando indicadores fundamentalistas de \(2.029\) empresas — como margem líquida e retorno sobre o patrimônio líquido (\textit{return on equity}) — a uma de 10 categorias de risco (\texttt{Rating}): \texttt{AAA} (\(0.34\%\)), \texttt{AA} (\(4.39\%\)), \texttt{A} (\(19.6\%\)), \texttt{BBB} (\(33.1\%\)), \texttt{BB} (\(24.2\%\)), \texttt{B} (\(14.9\%\)), \texttt{CCC} (\(3.15\%\)), \texttt{CC} (\(0.25\%\)), \texttt{C} (\(0.10\%\)), \texttt{D} (\(0.05\%\)). A classe de maior risco, \texttt{D}, indica que a empresa não seria capaz de arcar com suas obrigações financeiras. Tais empresas representam apenas \(0,05\%\) dos dados, tornando este o conjunto mais desbalanceado entre os selecionados. Os dados podem ser acessados em~\url{https://www.kaggle.com/datasets/agewerc/corporate-credit-rating}.
 
 A Tabela~\ref{tab:resumo-datasets} resume as principais características dos conjuntos de dados utilizados.
 
@@ -29,21 +29,28 @@ A Tabela~\ref{tab:resumo-datasets} resume as principais características dos con
   \resizebox{\textwidth}{!}{%
     \begin{tabular}{|l|l|l|l|}
       \hline
-      \textbf{Característica} & \textbf{Lending Club} & \textbf{Inadimplência de Cartão de Crédito (Taiwan)} & \textbf{Crédito Corporativo} \\ \hline
-      \textbf{Origem/Tipo} & Empréstimos \textit{peer-to-peer} (EUA) & Cartões de crédito de pessoas físicas (Taiwan) & Empresas (indicadores fundamentalistas) \\ \hline
+      \textbf{Característica} & \textbf{Lending Club} & \textbf{Cartão de Crédito (Taiwan)} & \textbf{Crédito Corporativo} \\ \hline
+      \textbf{Origem/Tipo} & Empréstimos \textit{peer-to-peer} (EUA) & Cartões de crédito de pessoas físicas & Empresas (indicadores fundamentalistas) \\ \hline
       \textbf{Nº de Observações} & \(\sim 630.000\) & \(30.000\) & \(2.029\) \\ \hline
       \textbf{Nº de Atributos} & 145 & 24 & 31 \\ \hline
       \textbf{Variável-Alvo} & \texttt{loan\_status} & \texttt{default.payment.next.month} & \texttt{Rating} \\ \hline
-      \textbf{Classes} & \textit{Fully Paid, Current, Charged Off} & 0 (Adimplente), 1 (Inadimplente) & 10 classes de risco (AAA, AA, ..., D) \\ \hline
-      \textbf{Proporção Minoritária} & \(\sim 1,1\%\) (Inadimplentes) & \(22\%\) (Inadimplentes) & \(0,005\%\) (Rating `D') \\ \hline
-      \textbf{Fonte} & \url{https://www.kaggle.com/datasets/wordsforthewise/lending-club} & \url{https://www.kaggle.com/datasets/uciml/default-of-credit-card-clients-dataset} & \url{https://www.kaggle.com/datasets/agewerc/corporate-credit-rating} \\ \hline
+      \textbf{Classes} & \texttt{Fully Paid, Current, Charged Off} & 0 (Adimplente), 1 (Inadimplente) & 10 classes de risco (\texttt{AAA, AA, ..., D}) \\ \hline
+      \textbf{Proporção Minoritária} & \(\sim 1,1\%\) (Inadimplentes) & \(22\%\) (Inadimplentes) & \(0,05\%\) (\texttt{Rating = D}) \\ \hline
     \end{tabular}%
   }
 \end{table}
 
 \section{Configuração dos Experimentos}\label{sec:configuracao-experimentos}
 
-Para mitigar a influência da aleatoriedade na partição dos dados sobre os resultados, cada experimento foi executado \(30\) vezes com sementes distintas, e os resultados finais foram calculados como a média dessas execuções~\cite{Namvar2018}. Em cada execução, os dados foram segmentados em conjuntos de treino (\(70\%\)) e teste (\(30\%\)) por meio de amostragem estratificada. Adicionalmente, empregou-se o método de validação cruzada \textit{k-fold} no conjunto de treino para a otimização de hiper-parâmetros. Os algoritmos de classificação selecionados foram \textit{Support Vector Machine} (SVM), \textit{Random Forest} e \textit{AdaBoost}, utilizando suas implementações da biblioteca \textit{Scikit-learn}~\cite{Pedregosa2011scikit}.
+Como o objetivo do trabalho é a construção de classificadores binários para a identificação de inadimplência, uma etapa fundamental do pré-processamento consiste na binarização da variável-alvo para os conjuntos de dados que originalmente possuíam múltiplas classes. A seguir, detalha-se a transformação aplicada a cada um:
+\begin{itemize}
+  \item \textbf{Lending Club:} As observações com status \texttt{Charged Off} foram rotuladas como a classe positiva (inadimplente, 1). As categorias \texttt{Fully Paid} e \texttt{Current} foram agrupadas para formar a classe negativa (adimplente, 0). Registros com outros status foram descartados da análise para evitar ambiguidades.
+  \item \textbf{Crédito Corporativo:} A classe de maior risco, \texttt{D}, foi definida como a classe positiva (1). Todas as demais categorias de risco (de \texttt{AAA} a \texttt{C}) foram unificadas para compor a classe negativa (0).
+  \item \textbf{Cartão de Crédito (Taiwan):} Este conjunto de dados já possui uma variável-alvo binária (\texttt{default.payment.next.month}), não necessitando, portanto, de transformação.
+\end{itemize}
+Após essa etapa, todos os conjuntos de dados passaram a ter uma estrutura de classificação binária uniforme, permitindo a comparação direta do desempenho dos modelos.
+
+Para mitigar a influência da aleatoriedade na partição dos dados sobre os resultados, cada experimento foi executado \(30\) vezes com sementes distintas, e os resultados finais foram calculados como a média dessas execuções~\cite{Namvar2018}. Em cada execução, os dados foram segmentados em conjuntos de treino (\(70\%\)) e teste (\(30\%\)) por meio de amostragem estratificada. Adicionalmente, empregou-se o método de validação cruzada \textit{k-fold} no conjunto de treino para a otimização de hiper-parâmetros. Os algoritmos de classificação selecionados foram \textit{Support Vector Machine} (SVM), \textit{Random Forest}, \textit{AdaBoost} e \textit{Multi-layer Perceptron Classifier} (MLP), utilizando suas implementações da biblioteca \textit{Scikit-learn}~\cite{Pedregosa2011scikit}.
 
 \section{Técnicas para Tratamento de Desbalanceamento}\label{sec:tecnicas}
 
@@ -61,8 +68,40 @@ Para a aprendizagem sensível a custos, foram empregadas duas abordagens distint
   \item \textbf{\textit{Cost-sensitive SVM} (CSSVM):} Uma implementação do SVM sensível a custos proposta por Iranmehr, Masnadi-Shirazi e Vasconcelos~\cite{Iranmehr2019}, como exemplo de abordagem algorítmica.
 \end{itemize}
 
-Dada a ausência de uma matriz de custos predefinida para os conjuntos de dados, os custos de classificação incorreta foram tratados como hiper-parâmetros. Estes foram otimizados por meio de busca em grade (\textit{grid search}), uma metodologia também adotada por Cao, Zhao e Zaiane~\cite{Cao2013}. Por convenção, este trabalho rotula a classe minoritária (ex: inadimplentes) como positiva (1) e a classe majoritária (ex: adimplentes) como negativa (0).
+Dada a ausência de uma matriz de custos predefinida para os conjuntos de dados, os custos de classificação incorreta foram tratados como hiper-parâmetros. Estes foram otimizados por meio de busca em grade (\textit{grid search}), uma metodologia também adotada por Cao, Zhao e Zaiane~\citeyear{Cao2013}. Por convenção, este trabalho rotula a classe minoritária (ex: inadimplentes) como positiva (1) e a classe majoritária (ex: adimplentes) como negativa (0).
 
 \section{Métricas de Avaliação}\label{sec:metricas}
 
 Os modelos resultantes dos experimentos foram avaliados por meio das métricas de acurácia balanceada, \textit{G-mean}, sensibilidade (revocação), precisão e \textit{F1-score}. Tais métricas foram escolhidas por serem robustas ao desbalanceamento de classes~\cite{Namvar2018,Wei2025}, permitindo uma avaliação mais fidedigna da capacidade dos classificadores em identificar corretamente a classe de interesse (minoritária).
+
+\section{Cronograma do trabalho}\label{sec:cronograma}
+
+A Figura~\ref{fig:cronograma} abaixo constitui um cronograma para as atividades do projeto.
+
+\begin{figure}[h!]
+  \centering
+  \caption{Cronograma geral da realização do trabalho}
+  \label{fig:cronograma}
+  \setlength{\extrarowheight}{3pt}
+  \begin{tabular}{|l|*{12}{c|}}
+    \hline
+    \multirow{2}{*}{\textbf{Atividades}} & \multicolumn{4}{c|}{\textbf{PGC I}} & \multicolumn{4}{c|}{\textbf{PGC II}} & \multicolumn{4}{c|}{\textbf{PGC III}} \\
+    \cline{2-13}
+    & \rotatebox{90}{Semanas 1-3} & \rotatebox{90}{Semanas 4-6} & \rotatebox{90}{Semanas 7-9} & \rotatebox{90}{Semanas 10-12} & \rotatebox{90}{Semanas 1-3} & \rotatebox{90}{Semanas 4-6} & \rotatebox{90}{Semanas 7-9} & \rotatebox{90}{Semanas 10-12} & \rotatebox{90}{Semanas 1-3} & \rotatebox{90}{Semanas 4-6} & \rotatebox{90}{Semanas 7-9} & \rotatebox{90}{Semanas 10-12} \\
+    \hline
+  1) Revisão da literatura & \cellcolor{black} & \cellcolor{black} & & & & & & & & & & \\
+  \hline
+2) Fundamentação teórica & \cellcolor{black} & \cellcolor{black} & \cellcolor{black} & & & \cellcolor{black} & \cellcolor{black} & \cellcolor{black} & \cellcolor{black} & & & \\
+\hline
+3) Planejamento metodológico & & & \cellcolor{black} & \cellcolor{black} & & & & & & & & \\
+\hline
+4) Obtenção dos conjuntos de dados & & & \cellcolor{black} & \cellcolor{black} & & & & & & & & \\
+\hline
+5) Treinamento dos modelos & & & & & \cellcolor{black} & \cellcolor{black} & \cellcolor{black} & \cellcolor{black} & \cellcolor{black} & \cellcolor{black} & & \\
+\hline
+6) Análise dos resultados & & & & & & & \cellcolor{black} & \cellcolor{black} & \cellcolor{black} & \cellcolor{black} & \cellcolor{black} & \\
+\hline
+7) Finalização e defesa & & & & & & & & & & & \cellcolor{black} & \cellcolor{black} \\
+\hline
+\end{tabular}
+\end{figure}

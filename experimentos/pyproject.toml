@@ -16,9 +16,12 @@ classifiers = [
     
 ]
 dependencies = [
+    "ipykernel>=6.30.1",
     "loguru",
     "mkdocs",
+    "pandas>=2.3.2",
     "pip",
+    "polars>=1.32.3",
     "pytest",
     "python-dotenv",
     "ruff",
